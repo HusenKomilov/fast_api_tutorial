@@ -7,7 +7,9 @@ from alembic import context
 
 from config import settings
 from database import Base
+from rooms.models import Rooms
 from hotels.models import Hotels
+from users.models import Users
 import sys
 from os.path import abspath, dirname
 
