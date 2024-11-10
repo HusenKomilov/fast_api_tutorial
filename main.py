@@ -4,8 +4,11 @@ from typing import Optional
 import uvicorn
 from fastapi import FastAPI, Query, Depends
 from pydantic import BaseModel
+from bookings.router import router as router_bookings
 
 app = FastAPI()
+
+app.include_router(router_bookings)
 
 
 class SHotelGet(BaseModel):

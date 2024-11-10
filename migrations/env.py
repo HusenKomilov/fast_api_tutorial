@@ -8,6 +8,7 @@ from alembic import context
 from config import settings
 from database import Base
 from rooms.models import Rooms
+from bookings.models import Booking
 from hotels.models import Hotels
 from users.models import Users
 import sys
