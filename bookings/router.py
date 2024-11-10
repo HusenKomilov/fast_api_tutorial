@@ -1,10 +1,14 @@
 from fastapi import APIRouter
-from sqlalchemy import select
+
+from .dao import BookingDAO
+from .schemas import SBooking
+
+"""from sqlalchemy import select
 
 from database import async_session_maker
 from rooms import Rooms
 from .models import Booking
-from users.models import Users
+from users.models import Users"""
 
 router = APIRouter(
     prefix="/bookings",
@@ -12,19 +16,11 @@ router = APIRouter(
 )
 
 
-@router.get("/")
+@router.get("/", response_model=list[SBooking])
 async def get_bookings():
-    async with async_session_maker() as session:
-        # query = select(Booking)
-        #
-        # result = await session.execute(query)
-        # return result.scalars().all()
-        query = (
-            select(
-                Booking,
-                Rooms,
-                Users,
-            ).join(Rooms, Rooms.id == Booking.room_id, isouter=True).join(Users, Users.id == Booking.user_id, isouter=True)
-        )
-        result = await session.execute(query)
-        return result.mappings().all()
+    return await BookingDAO.find_all()
+
+
+@router.get("/{model_id}")
+async def get_booking_by_model_id(model_id: int):
+    return await BookingDAO.find_by_id(model_id=model_id)
